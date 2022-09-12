@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 
@@ -14,6 +14,14 @@ app.use(morgan('dev'))
 
 // Endpoints
 app.use('/api/tasks', tasksRoutes)
+
+// Server error handler
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction): any => {
+    return res.status(500).json({
+        ok: false,
+        error_msg: err.message
+    })
+})
 
 // Server execution
 app.listen(process.env.PORT, () => {

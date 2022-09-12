@@ -1,7 +1,7 @@
 import { Response, Request } from 'express'
 import pool from '../db'
 
-export const getAllTasks = async (_req: Request, res: Response) => {
+export const getAllTasks = async (_req: Request, res: Response, next: any) => {
     try {
         const result = await pool.query('SELECT * FROM task')
 
@@ -9,11 +9,11 @@ export const getAllTasks = async (_req: Request, res: Response) => {
         res.status(200).json({ ok: true, result: result.rows })
 
     } catch (err: any) {
-        res.status(500).json({ ok: false, error_msg: err.message })
+        next(err)
     }
 }
 
-export const getTask = async (req: Request, res: Response): Promise<any> => {
+export const getTask = async (req: Request, res: Response, next: any): Promise<any> => {
     const { id } = req.params
 
     try {
@@ -27,11 +27,11 @@ export const getTask = async (req: Request, res: Response): Promise<any> => {
         res.status(200).json({ ok: true, result: result.rows[0] })
 
     } catch (err: any) {
-        res.status(500).json({ ok: false, error_msg: err.message })
+        next(err)
     }
 }
 
-export const createTask = async (req: Request, res: Response) => {
+export const createTask = async (req: Request, res: Response, next: any) => {
     const task = req.body
 
     try {
@@ -44,11 +44,11 @@ export const createTask = async (req: Request, res: Response) => {
         res.status(201).json({ ok: true, result: result.rows[0]})
 
     } catch (err: any) {
-        res.status(500).json({ ok: false, error_msg: err.message})
+        next(err)
     }
 }
 
-export const updateTask = async (req: Request, res: Response): Promise<any> => {
+export const updateTask = async (req: Request, res: Response, next: any): Promise<any> => {
     const { id } = req.params
     const { title, description } = req.body
 
@@ -65,11 +65,11 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
         res.status(200).json({ ok: true, result: result.rows[0] })
 
     } catch (err: any) {
-        res.status(500).json({ ok: false, error_msg: err.message })
+        next(err)
     }
 }
 
-export const deleteTask = async (req: Request, res: Response): Promise<any> => {
+export const deleteTask = async (req: Request, res: Response, next: any): Promise<any> => {
     const { id } = req.params
 
     try {
@@ -82,6 +82,6 @@ export const deleteTask = async (req: Request, res: Response): Promise<any> => {
         res.status(200).json({ ok: true, msg: `Task with id '${id}' deleted successfully`})
 
     } catch (err: any) {
-        res.status(500).json({ ok: false, error_msg: err.message })
+        next(err)
     }
 }
