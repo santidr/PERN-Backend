@@ -5,7 +5,6 @@ export const getAllTasks = async (_req: Request, res: Response, next: any) => {
     try {
         const result = await pool.query('SELECT * FROM task')
 
-        console.log(result.rows)
         res.status(200).json({ ok: true, result: result.rows })
 
     } catch (err: any) {
@@ -23,7 +22,6 @@ export const getTask = async (req: Request, res: Response, next: any): Promise<a
             return res.status(404).json({ ok: false, msg: 'Task not found' })
         }
 
-        console.log(result.rows[0])
         res.status(200).json({ ok: true, result: result.rows[0] })
 
     } catch (err: any) {
@@ -40,7 +38,6 @@ export const createTask = async (req: Request, res: Response, next: any) => {
             task.description
         ])
 
-        console.log(result.rows[0])
         res.status(201).json({ ok: true, result: result.rows[0]})
 
     } catch (err: any) {

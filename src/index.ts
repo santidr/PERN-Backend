@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
+import cors from 'cors'
 
 // routes
 import tasksRoutes from './routes/tasks.routes'
@@ -11,6 +12,7 @@ const app = express()
 
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors())
 
 // Endpoints
 app.use('/api/tasks', tasksRoutes)
